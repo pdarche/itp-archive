@@ -1,7 +1,7 @@
 import csv
 
 import sqlite3
-conn = sqlite3.connect('../db-test/itparchive.db')
+conn = sqlite3.connect('../ItpArchive/db-test/itparchive.db')
 
 c = conn.cursor()
 

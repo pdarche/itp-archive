@@ -5,8 +5,8 @@ import codecs
 from xml import dom
 from xml.dom.minidom import parse, parseString
 
-dom = parse('../archive-test-files/archive_xml_template.xml')
-csvFile = '../archive-test-files/media_objects.csv'
+dom = parse('templates/archive_xml_template.xml')
+csvFile = 'csv/media_objects.csv'
 
 csvData = csv.reader(open(csvFile))
 
@@ -43,7 +43,7 @@ for thesis in theses:
 		if sub.getElementsByTagName("unittitle")[0].firstChild.nodeValue == thesis["unitdate"]:
 			#create c with refid and level <c id="{refid}" level="item">
 			c = dom.createElement("c")
-			c.attributes["refid"] = thesis["refid"]
+			c.attributes["id"] = thesis["refid"]
 			c.attributes["level"] = "item"
 			sub.appendChild(c)	
 			#create did
@@ -57,7 +57,7 @@ for thesis in theses:
 			langmaterial = dom.createElement("langmaterial")
 			did.appendChild(langmaterial)
 			language = dom.createElement("language")
-			language.attributes["lang"] = "eng"
+			language.attributes["langcode"] = "eng"
 			langmaterial.appendChild(language)
 			#create container tag
 			container = dom.createElement("container")
@@ -71,7 +71,7 @@ for thesis in theses:
 			extent = dom.createElement("extent")
 			physdesc.appendChild(extent)
 			extent.appendChild(dom.createTextNode(thesis["extent"]))
-			extent_desct = dom.createElement("extent_desct")
+			extent_desct = dom.createElement("extent")
 			physdesc.appendChild(extent_desct)
 			extent_desct.appendChild(dom.createTextNode(thesis["extent_desc"]))
 			#create unitdate tag
@@ -110,7 +110,7 @@ for thesis in theses:
 				p.appendChild(dom.createTextNode(thesis["note_text"]))
 				note.appendChild(p)
 
-print dom.toxml().encode('utf-8')
+print dom.toprettyxml().encode('utf-8')
 
 
 # spreadsheet is the cannonical representation of the thesis objects 

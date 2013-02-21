@@ -5,8 +5,8 @@ import codecs
 from xml import dom
 from xml.dom.minidom import parse, parseString
 
-dom = parse('xml_output.xml')
-csvFile = 'thesis_from_db.csv'
+dom = parse('templates/media_objects.xml')
+csvFile = 'csv/thesis_from_db.csv'
 
 csvData = csv.reader(open(csvFile))
 
@@ -85,7 +85,7 @@ for thesis in theses:
 			if thesis["unittitle"] not in theres: 
 				#create c with refid and level <c id="{refid}" level="item">
 				c = dom.createElement("c")
-				c.attributes["refid"] = thesis["refid"]
+				c.attributes["id"] = thesis["refid"]
 				c.attributes["level"] = "item"
 				sub.appendChild(c)	
 				#create did
@@ -99,7 +99,7 @@ for thesis in theses:
 				langmaterial = dom.createElement("langmaterial")
 				did.appendChild(langmaterial)
 				language = dom.createElement("language")
-				language.attributes["lang"] = "eng"
+				language.attributes["langcode"] = "eng"
 				langmaterial.appendChild(language)
 				#create container tag
 				container = dom.createElement("container")
@@ -113,7 +113,7 @@ for thesis in theses:
 				extent = dom.createElement("extent")
 				physdesc.appendChild(extent)
 				extent.appendChild(dom.createTextNode(thesis["extent"]))
-				extent_desct = dom.createElement("extent_desct")
+				extent_desct = dom.createElement("extent")
 				physdesc.appendChild(extent_desct)
 				extent_desct.appendChild(dom.createTextNode(thesis["extent_desc"]))
 				#create unitdate tag
