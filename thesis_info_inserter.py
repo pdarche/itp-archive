@@ -15,7 +15,6 @@ items = []
 subseries = []
 theses = []
 rowNum = 0
-
 theres = []
 
 for c in cees:	
@@ -44,24 +43,25 @@ for row in csvData:
 
     rowNum +=1 
 
+
 for thesis in theses:
 	#iterate through the current theses
 	for c in items:
 	# 	#if the nth thesis has the same title as the xml thesis:
-		if thesis["unittitle"] == c.getElementsByTagName("unittitle")[0].firstChild.nodeValue:
+		if thesis["unittitle"] == c.getElementsByTagName("unittitle")[0].firstChild.nodeValue.encode('utf-8').strip():
 			theres.append(thesis["unittitle"])
 			#if it already has an odd tag, append new head and p
 			if c.getElementsByTagName("odd"):
 				note = c.getElementsByTagName("odd")
-				head = dom.createElement("head")
-				head.appendChild(dom.createTextNode(thesis["note_title"]))
-				note[0].appendChild(head)
+				# head = dom.createElement("head")
+				# head.appendChild(dom.createTextNode(thesis["note_title"]))
+				# note[0].appendChild(head)
 				p = dom.createElement("p")
 				p.appendChild(dom.createTextNode(thesis["note_text"]))
 				note[0].appendChild(p)
 			#else add an odd tag with the head and 
 			else:
-				newRef = int(c.getAttribute("refid")[3:])
+				newRef = int(c.getAttribute("id")[3:])
 				newRef += 1
 				noteRef = "ref" + str(newRef)
 				# add note 
@@ -69,9 +69,9 @@ for thesis in theses:
 				note.attributes["id"] = noteRef
 				c.appendChild(note)
 				#create note title
-				head = dom.createElement("head")
-				head.appendChild(dom.createTextNode(thesis["note_title"]))
-				note.appendChild(head)
+				# head = dom.createElement("head")
+				# head.appendChild(dom.createTextNode(thesis["note_title"]))
+				# note.appendChild(head)
 				#create note content
 				p = dom.createElement("p")
 				p.appendChild(dom.createTextNode(thesis["note_text"]))
@@ -82,8 +82,8 @@ for thesis in theses:
 		#if unititle year equals thesis year:
 	for sub in subseries:
 		if sub.getElementsByTagName("unittitle")[0].firstChild.nodeValue == thesis["unitdate"]:			
-			if thesis["unittitle"] not in theres: 
-				#create c with refid and level <c id="{refid}" level="item">
+			if thesis["unittitle"] not in theres:
+				# create c with refid and level <c id="{refid}" level="item">
 				c = dom.createElement("c")
 				c.attributes["id"] = thesis["refid"]
 				c.attributes["level"] = "item"
@@ -136,7 +136,7 @@ for thesis in theses:
 
 				# add notes
 				if thesis["note_title"] != None and len(thesis["note_title"]) > 0:
-					newRef = int(thesis["refid"][3:])
+					newRef = int(thesis["id"][3:])
 					newRef += 1
 					noteRef = "ref" + str(newRef)
 					# add note 
@@ -144,9 +144,9 @@ for thesis in theses:
 					note.attributes["id"] = noteRef
 					c.appendChild(note)
 					#create note title
-					head = dom.createElement("head")
-					head.appendChild(dom.createTextNode(thesis["note_title"]))
-					note.appendChild(head)
+					# head = dom.createElement("head")
+					# head.appendChild(dom.createTextNode(thesis["note_title"]))
+					# note.appendChild(head)
 					#create note content
 					p = dom.createElement("p")
 					p.appendChild(dom.createTextNode(thesis["note_text"]))
@@ -154,5 +154,7 @@ for thesis in theses:
 
 
 print dom.toprettyxml().encode('utf-8')
+
+
 
 

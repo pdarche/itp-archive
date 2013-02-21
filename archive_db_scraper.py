@@ -12,7 +12,7 @@ csvwriter.writerow(["refid", "unittitle", "unitdate", "container_type", "contain
 theses = c.execute('SELECT * FROM theses, people, documentations  WHERE theses.id = people.thesis_id AND theses.id = documentations.thesis_id')
 
 for thesis in theses:
-	thesis_id = "ref" + str(int(thesis[0]) + 1007)
+	thesis_id = "ref" + str((int(thesis[0]) * 2) + 1008)
 	unittitle = thesis[1]
 	unitdate = thesis[2]
 	container_type = "Box"
